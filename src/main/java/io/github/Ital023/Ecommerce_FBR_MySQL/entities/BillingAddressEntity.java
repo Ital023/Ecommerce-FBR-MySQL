@@ -20,7 +20,18 @@ public class BillingAddressEntity {
     @Column(name = "complement")
     private String complement;
 
+    @OneToOne(mappedBy = "billingAddress")
+    private UserEntity user;
+
     public BillingAddressEntity() {
+    }
+
+    public Long getBillingAddressId() {
+        return billingAddressId;
+    }
+
+    public void setBillingAddressId(Long billingAddressId) {
+        this.billingAddressId = billingAddressId;
     }
 
     public String getAddress() {

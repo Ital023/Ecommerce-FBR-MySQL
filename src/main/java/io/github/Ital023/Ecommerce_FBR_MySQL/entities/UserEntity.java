@@ -16,6 +16,10 @@ public class UserEntity {
     @Column(name = "full_name")
     private String fullName;
 
+    @OneToOne
+    @JoinColumn(name = "billing_address_id")
+    private BillingAddressEntity billingAddress;
+
     public UserEntity() {
     }
 
@@ -33,5 +37,13 @@ public class UserEntity {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public BillingAddressEntity getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(BillingAddressEntity billingAddress) {
+        this.billingAddress = billingAddress;
     }
 }
