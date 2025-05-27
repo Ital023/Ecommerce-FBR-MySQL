@@ -1,0 +1,20 @@
+meta {
+  name: Create user
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "fullName": "Italo Miranda",
+    "address": "Rua antonio rodrigues",
+    "number": "51",
+    "complement": "bl A apto 301"
+  }
+}
