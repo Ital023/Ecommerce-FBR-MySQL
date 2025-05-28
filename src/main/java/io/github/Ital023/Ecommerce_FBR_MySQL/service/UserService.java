@@ -43,5 +43,14 @@ public class UserService {
     }
 
 
+    public boolean deleteById(UUID userId) {
+        var user = userRepository.findById(userId);
+        if(user.isPresent()) {
+            userRepository.deleteById(userId);
+            billingAddressRepository.deleteById(user.get().getBillingAddress().getBillingAddressId());
+        }
+        return user.isPresent();
+    }
+
 
 }

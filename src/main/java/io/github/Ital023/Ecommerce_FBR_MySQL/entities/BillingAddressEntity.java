@@ -26,7 +26,6 @@ public class BillingAddressEntity {
     public BillingAddressEntity() {
     }
 
-    /*
     public Long getBillingAddressId() {
         return billingAddressId;
     }
@@ -34,7 +33,6 @@ public class BillingAddressEntity {
     public void setBillingAddressId(Long billingAddressId) {
         this.billingAddressId = billingAddressId;
     }
-    */
 
     public String getAddress() {
         return address;
