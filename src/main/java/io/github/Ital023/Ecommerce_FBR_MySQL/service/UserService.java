@@ -7,6 +7,9 @@ import io.github.Ital023.Ecommerce_FBR_MySQL.repository.BillingAddressRepository
 import io.github.Ital023.Ecommerce_FBR_MySQL.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserService {
 
@@ -34,5 +37,11 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public Optional<UserEntity> findById(UUID userId) {
+        return userRepository.findById(userId);
+    }
+
+
 
 }

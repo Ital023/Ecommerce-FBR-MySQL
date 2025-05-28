@@ -1,14 +1,13 @@
 package io.github.Ital023.Ecommerce_FBR_MySQL.controller;
 
 import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.CreateUserDto;
+import io.github.Ital023.Ecommerce_FBR_MySQL.entities.UserEntity;
 import io.github.Ital023.Ecommerce_FBR_MySQL.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -26,6 +25,15 @@ public class UserController {
         var user = userService.createUser(dto);
 
         return ResponseEntity.created(URI.create("/users/" + user.getUserId())).build();
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserEntity> findById(@PathVariable("userId")UUID userId) {
+        var user = userService.findById(userId);
+
+        return user.isPresent() ?
+                ResponseEntity.ok(user.get()) :
+                ResponseEntity.notFound().build();
     }
 
 
