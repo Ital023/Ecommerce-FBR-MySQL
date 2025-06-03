@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -95,13 +96,15 @@ public class OrderService {
     public Page<OrderSummaryDto> findAll(Integer page, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(page, pageSize);
         return orderRepository.findAll(pageRequest)
-                .map(entity -> {
-                    return new OrderSummaryDto(
-                            entity.getOrderId(),
-                            entity.getOrderDate(),
-                            entity.getUser().getUserId(),
-                            entity.getTotal()
-                    );
-                });
+                .map(entity -> new OrderSummaryDto(
+                        entity.getOrderId(),
+                        entity.getOrderDate(),
+                        entity.getUser().getUserId(),
+                        entity.getTotal()
+                ));
+    }
+
+    public Optional<OrderEntity> findById(Long orderId) {
+        return orderRepository.findById(orderId);
     }
 }

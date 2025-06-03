@@ -1,9 +1,6 @@
 package io.github.Ital023.Ecommerce_FBR_MySQL.controller;
 
-import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.ApiResponse;
-import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.CreateOrderDto;
-import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.OrderSummaryDto;
-import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.PaginationResponse;
+import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.*;
 import io.github.Ital023.Ecommerce_FBR_MySQL.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +39,17 @@ public class OrderController {
         var response = new ApiResponse<OrderSummaryDto>(ordersResponse.getContent(), paginationResponse);
 
         return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderResponseDto> listOrders(@PathVariable("orderId") Long orderId) {
+
+        var order = orderService.findById(orderId);
+
+        return order.isPresent() ?
+                ResponseEntity.ok(OrderResponseDto.fromEntity(order.get())) :
+                ResponseEntity.notFound().build();
     }
 
 }
