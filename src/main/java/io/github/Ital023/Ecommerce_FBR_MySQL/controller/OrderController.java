@@ -1,12 +1,12 @@
 package io.github.Ital023.Ecommerce_FBR_MySQL.controller;
 
+import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.ApiResponse;
 import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.CreateOrderDto;
+import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.OrderSummaryDto;
+import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.PaginationResponse;
 import io.github.Ital023.Ecommerce_FBR_MySQL.service.OrderService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -25,6 +25,23 @@ public class OrderController {
         var order = orderService.createOrder(dto);
 
         return ResponseEntity.created(URI.create("/orders/" + order.getOrderId())).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<OrderSummaryDto>> listOrders(@RequestParam(name = "page",defaultValue = "0") Integer page,
+                                                                   @RequestParam(name = "pageSize",defaultValue = "10") Integer pageSize) {
+
+        var ordersResponse = orderService.findAll(page, pageSize);
+        var paginationResponse =
+                new PaginationResponse(ordersResponse.getNumber(),
+                        ordersResponse.getSize(),
+                        ordersResponse.getTotalElements(),
+                        ordersResponse.getTotalPages()
+                );
+
+        var response = new ApiResponse<OrderSummaryDto>(ordersResponse.getContent(), paginationResponse);
+
+        return ResponseEntity.ok(response);
     }
 
 }

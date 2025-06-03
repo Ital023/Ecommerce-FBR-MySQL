@@ -2,11 +2,14 @@ package io.github.Ital023.Ecommerce_FBR_MySQL.service;
 
 import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.CreateOrderDto;
 import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.OrderItemDto;
+import io.github.Ital023.Ecommerce_FBR_MySQL.controller.dto.OrderSummaryDto;
 import io.github.Ital023.Ecommerce_FBR_MySQL.entities.*;
 import io.github.Ital023.Ecommerce_FBR_MySQL.exception.CreateOrderException;
 import io.github.Ital023.Ecommerce_FBR_MySQL.repository.OrderRepository;
 import io.github.Ital023.Ecommerce_FBR_MySQL.repository.ProductRepository;
 import io.github.Ital023.Ecommerce_FBR_MySQL.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -89,4 +92,16 @@ public class OrderService {
     }
 
 
+    public Page<OrderSummaryDto> findAll(Integer page, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        return orderRepository.findAll(pageRequest)
+                .map(entity -> {
+                    return new OrderSummaryDto(
+                            entity.getOrderId(),
+                            entity.getOrderDate(),
+                            entity.getUser().getUserId(),
+                            entity.getTotal()
+                    );
+                });
+    }
 }
